@@ -240,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                         Badge(
                           isLabelVisible: quantidade > 0,
-                          label: Text('\${quantidade}'),
+                          label: Text('$quantidade'),
                           child: IconButton(
                             icon: const Icon(Icons.shopping_bag_outlined),
                             tooltip: 'Carrinho',
