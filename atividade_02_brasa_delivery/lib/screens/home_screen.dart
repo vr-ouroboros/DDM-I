@@ -359,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
               nav(Icons.receipt_long_outlined, 'Pedidos',
                   () => mensagem('Pedidos indisponíveis na demonstração.')),
               nav(Icons.person_outline, 'Perfil',
-                  () => mensagem('Perfil em desenvolvimento.')),
+                  () => Navigator.of(context).pushNamed('/login')),
             ]),
           ),
         ]),
