@@ -1,18 +1,19 @@
 # Atividade 2 — Brasa Delivery
 
-Protótipo Flutter independente com tema **Brasa**, catálogo fictício, ilustrações locais e estado apenas em memória. **Não usa backend, Firebase, APIs, banco de dados, autenticação real ou pagamentos.**
+Protótipo Flutter independente com a identidade visual **Brasa**. Todo o conteúdo é local: **sem backend, APIs, autenticação real, banco de dados ou pagamentos**.
 
-## Estrutura
-- `lib/main.dart`: inicialização e rotas (`/login` e `/home`);
-- `lib/screens/login_screen.dart`: tela de login personalizada, baseada no esboço;
-- `lib/screens/home_screen.dart`: home, categorias, busca e carrinho;
-- `lib/data/mock_data.dart`: oito produtos fictícios e seis categorias;
-- `lib/theme/brasa_theme.dart`: identidade visual Material 3;
-- `assets/images/*.png`: sete ilustrações locais de alimentos;
-- `pubspec.yaml`: dependências e declaração dos assets.
+## Organização
+- `lib/main.dart` — inicialização e rotas (`/login`, `/home` e `/search`);
+- `lib/screens/login_screen.dart` — login demonstrativo;
+- `lib/screens/home_screen.dart` — Home e catálogo;
+- `lib/screens/search_screen.dart` — Busca, filtros, carrossel e resultados;
+- `lib/data/mock_data.dart` — oito produtos e seis categorias fictícios;
+- `lib/data/cart_state.dart` — carrinho compartilhado em memória;
+- `lib/theme/brasa_theme.dart` — tema Material 3;
+- `assets/images/` — sete ilustrações PNG locais.
 
 ## Executar
-Abra o terminal nesta pasta:
+No terminal, entre na pasta `atividade_02_brasa_delivery`:
 
 ```bash
 flutter create .
@@ -20,17 +21,16 @@ flutter pub get
 flutter run
 ```
 
-O `flutter create .` gera os arquivos nativos ausentes. Mantenha o `pubspec.yaml` desta atividade, que registra `assets/images/`.
+O `flutter create .` gera pastas nativas ausentes; preserve o `pubspec.yaml`, que declara os assets.
 
-## Tela de login
-A rota inicial é `/login`. A tela tem marca Brasa, imagem local, campos de e-mail e senha, validação **apenas local**, botão de mostrar/ocultar senha e ações demonstrativas para **Entrar**, **Google**, **Esqueci minha senha** e **Criar conta**.
+## Telas
 
-**Importante:** o botão **Entrar** não autentica e não transmite nem salva credenciais; apenas valida os campos e exibe um aviso. Google, recuperação e cadastro exibem mensagens sobre a ausência de integração. **Explorar como visitante** abre a Home sem login. Na Home, o botão **Perfil** leva à tela de login.
+**Login:** validação visual/local de e-mail e senha; ações de login, Google, recuperação e cadastro apenas demonstrativas. O link **Explorar como visitante** leva à Home sem autenticação.
 
-## Home
-- Busca por produto, restaurante ou descrição.
-- Filtro por categoria.
-- Carrinho em memória com inclusão, remoção e subtotal.
-- Endereço e navegação fictícios.
+**Home:** exibição do catálogo com dados locais, categorias, busca e carrinho em memória. A aba **Buscar** abre a tela de busca.
 
-Todos os nomes, preços, avaliações e prazos de entrega são inventados. O carrinho é perdido ao reiniciar o aplicativo.
+**Busca:** pesquisa instantânea por nome, categoria, descrição ou restaurante; chips **Todos**, **Próximos**, **Entrega rápida** e **Melhor avaliação**; contagem de resultados; imagens locais dos produtos; cards com preço, avaliação e tempo fictícios; botão **Adicionar** e **carrossel horizontal** (PageView) com três produtos em destaque.
+
+Os filtros são **simulados**: "Próximos" usa uma lista de restaurantes fictícios pré-selecionados, sem GPS; "Entrega rápida" usa o limite fictício de 20 minutos; "Melhor avaliação" seleciona notas a partir de 4,8. O carrinho é compartilhado entre Home e Busca na memória do processo, mas não é persistido.
+
+Nenhuma ação aciona serviços externos. Dados, preços, avaliações e entregas são inteiramente fictícios.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/search_screen.dart';
 import 'theme/brasa_theme.dart';
 
 void main() => runApp(const BrasaApp());
@@ -19,6 +20,7 @@ class BrasaApp extends StatelessWidget {
       routes: {
         '/login': (_) => const LoginScreen(),
         '/home': (_) => const HomeScreen(),
+        '/search': (_) => const SearchScreen(),
       },
     );
   }

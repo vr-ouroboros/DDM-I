@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
+import '../data/cart_state.dart';
 import '../theme/brasa_theme.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,19 +11,29 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final busca = TextEditingController();
-  final Map<String, int> carrinho = {};
+  final CarrinhoDemo carrinho = CarrinhoDemo.instancia;
   String? categoria;
   String consulta = '';
 
   @override
+  void initState() {
+    super.initState();
+    carrinho.addListener(_atualizarCarrinho);
+  }
+
+  void _atualizarCarrinho() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   void dispose() {
+    carrinho.removeListener(_atualizarCarrinho);
     busca.dispose();
     super.dispose();
   }
 
-  int get quantidade => carrinho.values.fold(0, (a, b) => a + b);
-  double get subtotal => CatalogoFicticio.produtos.fold(
-      0.0, (soma, p) => soma + p.preco * (carrinho[p.id] ?? 0));
+  int get quantidade => carrinho.quantidade;
+  double get subtotal => carrinho.subtotal;
 
   List<Produto> get produtos => CatalogoFicticio.produtos.where((p) {
         final t = consulta.trim().toLowerCase();
@@ -47,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void adicionar(Produto p) {
-    setState(() => carrinho[p.id] = (carrinho[p.id] ?? 0) + 1);
+    carrinho.adicionar(p);
     mensagem('Produto adicionado ao carrinho fictício.');
   }
 
@@ -59,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (modalContext) => StatefulBuilder(
         builder: (modalContext, atualizar) {
           final itens = CatalogoFicticio.produtos
-              .where((p) => (carrinho[p.id] ?? 0) > 0).toList();
+              .where((p) => carrinho.quantidadeDo(p.id) > 0).toList();
           return SafeArea(
             top: false,
             child: Padding(
@@ -88,19 +99,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           contentPadding: EdgeInsets.zero,
                           leading: Image.asset(p.imagem, width: 48, height: 48, fit: BoxFit.cover),
                           title: Text(p.nome),
-                          subtitle: Text('${carrinho[p.id]} × ${precoEmReais(p.preco)}'),
+                          subtitle: Text('${carrinho.quantidadeDo(p.id)} × ${precoEmReais(p.preco)}'),
                           trailing: IconButton(
                             tooltip: 'Remover uma unidade',
                             icon: const Icon(Icons.remove_circle_outline),
                             onPressed: () {
-                              setState(() {
-                                final n = carrinho[p.id] ?? 0;
-                                if (n <= 1) {
-                                  carrinho.remove(p.id);
-                                } else {
-                                  carrinho[p.id] = n - 1;
-                                }
-                              });
+                              carrinho.remover(p);
                               atualizar(() {});
                             },
                           ),
@@ -355,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               nav(Icons.home_rounded, 'Início', () {}),
-              nav(Icons.search, 'Buscar', () => mensagem('Use a busca acima.')),
+              nav(Icons.search, 'Buscar', () => Navigator.of(context).pushNamed('/search')),
               nav(Icons.receipt_long_outlined, 'Pedidos',
                   () => mensagem('Pedidos indisponíveis na demonstração.')),
               nav(Icons.person_outline, 'Perfil',
