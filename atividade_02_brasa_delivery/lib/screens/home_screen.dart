@@ -361,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
               nav(Icons.home_rounded, 'Início', () {}),
               nav(Icons.search, 'Buscar', () => Navigator.of(context).pushNamed('/search')),
               nav(Icons.receipt_long_outlined, 'Pedidos',
-                  () => mensagem('Pedidos indisponíveis na demonstração.')),
+                  () => Navigator.of(context).pushNamed('/orders')),
               nav(Icons.person_outline, 'Perfil',
                   () => Navigator.of(context).pushNamed('/login')),
             ]),

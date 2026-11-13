@@ -208,7 +208,7 @@ class _SearchScreenState extends State<SearchScreen> {
       _nav(Icons.home_outlined, 'Início', false, () => Navigator.of(context).pushReplacementNamed('/home')),
       _nav(Icons.search_rounded, 'Buscar', true, () {}),
       _nav(Icons.receipt_long_outlined, 'Pedidos', false,
-          () => _aviso('Pedidos ainda não disponíveis neste protótipo.')),
+          () => Navigator.of(context).pushReplacementNamed('/orders')),
       _nav(Icons.person_outline, 'Perfil', false, () => Navigator.of(context).pushNamed('/login')),
     ]),
   );
